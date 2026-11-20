@@ -1,0 +1,24 @@
+services:
+  jmri:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: jmri-headless:5.16
+    container_name: jmri
+    restart: unless-stopped
+
+    ports:
+      - "2048:2048"
+      - "12080:12080"
+      - "12090:12090"
+
+    volumes:
+      - ../jmri-data/.jmri:/home/jmri/.jmri
+
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true"
+
+    command:
+      - /opt/JMRI/JmriFaceless
+      - --profile=DockerSimulator.3eb0eb70
